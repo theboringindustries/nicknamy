@@ -12,7 +12,6 @@ const isNicknameFree = (fetchResult) => fetchResult.statusCode === 404;
 
 const getFreeNicknames = async (nicknames, { timeout = 500, api = API, onProgress }) => {
   const queue = makePromiseQueue(timeout);
-  onProgress({ nicknames, nickname: '', index: 0, isFree: false });
 
   const freeNicknamesRequest = queue(
     nicknames
