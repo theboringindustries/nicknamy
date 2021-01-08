@@ -1,14 +1,14 @@
 
 const getFreeNicknames = require('./check');
 const { loadDictionary } = require('./dictionary');
-const { clearLastLines, log, makeRed, makeGreen } = require('./logger');
+const { clearLastLines, log, makeRed, makeGreen, makeYellow } = require('./logger');
 
 const API = 'https://github.com';
 
 const getDictionaryPath = () => process.argv.slice(2)[0];
 
 const logFreeNicknames = (free) => {
-  log(`Free nicknames: [${free.join(', ')}]`)
+  log(`Free nicknames: ${makeYellow(`[${free.join(', ')}]`)}`);
 }
  
 const makeLogger = ({ dictionary, api }) => {
@@ -36,7 +36,7 @@ const main = () => {
   const dictionaryPath = getDictionaryPath();
 
   if (!dictionaryPath) {
-    log(makeRed('I need a dictionary, dumb leather bag!!! ヽ(`Д´)ﾉ'));
+    log(makeRed('I need a dictionary, stupid leather bag!!! ヽ(`Д´)ﾉ'));
     return false;
   }
 
