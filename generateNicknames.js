@@ -1,29 +1,38 @@
 
+const { injectSideEffect, plus, mixArrays } = require('./utils');
+const { clearLastLines, log } = require('./logger');
+
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-const plus = (x) => (y) => x + y;
+const generateNicknames = (length, { words, onProgress }) => {
+  return mixArrays(injectSideEffect(plus)(onProgress, 1))(Array(length).fill(words));
+}
 
-const flatten = ([x, ...xs]) => {
-  if (!x) return [];
+const calcTotalSteps = (words) => {
+  const helper = (len) => {
+    if (len === 1) {
+      return words.length;
+    }
 
-  if (Array.isArray(x)) {
-    return flatten(x).concat(flatten(xs));
+    return (words.length) ** len + helper(len - 1)
   }
-
-  return [x].concat(flatten(xs));
+  
+  return helper;
 }
 
-const mixArrays = (combiner) => ([x, ...xs]) => {
-  if (!x) return [];
-  if (!xs.length) return x;
+const logger = (len) => (words) => {
+  const total = calcTotalSteps(words)(len);
+  let step = 1;
 
-  const next = mixArrays(combiner)(xs);
+  log('');
 
-  return flatten(x.map(combiner).map(next.map.bind(next)));
+  return () => {
+    clearLastLines(1);
+    log(`Generated: ${step++ / total * 100}%`)
+    // log(`Generated: ${index++} / ${total}`)
+  }
 }
 
-const generateNicknames = (length, letters = ALPHABET) => {
-  return mixArrays(plus)(Array(length).fill(letters));
-}
+console.warn('len', generateNicknames(26, { onProgress: logger(26)(ALPHABET), words: ALPHABET }).length)
 
 module.exports = generateNicknames;
