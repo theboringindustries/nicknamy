@@ -1,7 +1,8 @@
 
 const getFreeNicknames = require('./check');
 const { loadDictionary } = require('./dictionary');
-const { clearLastLines, log, makeRed, makeGreen, makeYellow } = require('./logger');
+const { clearLastLines, log } = require('./logger');
+const { makeRed, makeGreen, makeYellow } = require('./colorful');
 
 const API = 'https://github.com';
 
@@ -42,7 +43,7 @@ const main = () => {
 
   const dictionary = loadDictionary(dictionaryPath);
 
-  getFreeNicknames(dictionary, { onProgress: makeLogger({ dictionary, api: API }), api: API });
+  getFreeNicknames(dictionary, { onProgress: makeLogger({ dictionary, api: API, timeout: 100 }), api: API });
   return true;
 }
 
