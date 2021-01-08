@@ -3,14 +3,12 @@ const readline = require('readline');
 const makePromiseQueue = require('./promiseQueue');
 const https = require('https');
 
-const API = 'https://github.com';
-
 const makeApiUrl = (api) => (nickname) => `${api}/${nickname}`;
 
 const fetchNickname = (makeUrl) => (nickname) => new Promise(resolve => https.get(makeUrl(nickname), resolve));
 const isNicknameFree = (fetchResult) => fetchResult.statusCode === 404;
 
-const getFreeNicknames = async (nicknames, { timeout = 500, api = API, onProgress }) => {
+const getFreeNicknames = async (nicknames, { timeout = 500, api, onProgress }) => {
   const queue = makePromiseQueue(timeout);
 
   const freeNicknamesRequest = queue(
