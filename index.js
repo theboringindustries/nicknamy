@@ -1,6 +1,6 @@
 
 const getFreeNicknames = require('./check');
-const { loadDictionary } = require('./loadDictionary');
+const { loadDictionary } = require('./dictionary');
 const { clearLastLines, log } = require('./logger');
 
 const RED = '\x1b[31m';
