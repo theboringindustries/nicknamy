@@ -7,6 +7,7 @@ const { makeRed, makeGreen, makeYellow } = require('./colorful');
 const API = 'https://github.com';
 
 const getDictionaryPath = () => process.argv.slice(2)[0];
+const getTimeout = () => process.argv.slice(2)[1];
 
 const logFreeNicknames = (free) => {
   log(`Free nicknames: ${makeYellow(`[${free.join(', ')}]`)}`);
@@ -43,7 +44,7 @@ const main = () => {
 
   const dictionary = loadDictionary(dictionaryPath);
 
-  getFreeNicknames(dictionary, { onProgress: makeLogger({ dictionary, api: API, timeout: 100 }), api: API });
+  getFreeNicknames(dictionary, { onProgress: makeLogger({ dictionary, api: API, timeout: getTimeout() ?? 100 }), api: API });
   return true;
 }
 
